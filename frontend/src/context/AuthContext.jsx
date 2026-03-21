@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   const loginUser = async (email, password) => {
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const res = await axios.post(`\${import.meta.env.REACT_APP_API_URL}/api/auth/login`, { email, password });
       const { token: jwt, user: userData } = res.data;
       
       setToken(jwt);
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   const requestRegisterOTP = async (email) => {
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/send-register-otp', { email });
+      const res = await axios.post(`\${import.meta.env.REACT_APP_API_URL}/api/auth/send-register-otp`, { email });
       setLoading(false);
       return { success: true, message: res.data.message };
     } catch (error) {
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   const registerUser = async (name, email, password, otp) => {
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', { name, email, password, otp });
+      const res = await axios.post(`\${import.meta.env.REACT_APP_API_URL}/api/auth/register`, { name, email, password, otp });
       const { token: jwt, user: userData } = res.data;
       
       setToken(jwt);

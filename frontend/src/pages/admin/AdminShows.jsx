@@ -18,8 +18,8 @@ const AdminShows = () => {
   const fetchData = async () => {
     try {
       const [showsRes, moviesRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/shows'),
-        axios.get('http://localhost:5000/api/movies')
+        axios.get(`\${import.meta.env.REACT_APP_API_URL}/api/shows`),
+        axios.get(`\${import.meta.env.REACT_APP_API_URL}/api/movies`)
       ]);
       setShows(showsRes.data);
       setMovies(moviesRes.data);
@@ -34,9 +34,9 @@ const AdminShows = () => {
     e.preventDefault();
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/shows/${editId}`, formData);
+        await axios.put(`\${import.meta.env.REACT_APP_API_URL}/api/shows/${editId}`, formData);
       } else {
-        await axios.post('http://localhost:5000/api/shows', formData);
+        await axios.post(`\${import.meta.env.REACT_APP_API_URL}/api/shows`, formData);
       }
       setFormData({ movie: '', time: '', date: '', screen: '', price: 100 });
       setIsEditing(false);
@@ -50,7 +50,7 @@ const AdminShows = () => {
   const handleDelete = async (id) => {
     if(window.confirm('Delete this show?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/shows/${id}`);
+        await axios.delete(`\${import.meta.env.REACT_APP_API_URL}/api/shows/${id}`);
         fetchData();
       } catch(e) {
         alert('Error deleting show');

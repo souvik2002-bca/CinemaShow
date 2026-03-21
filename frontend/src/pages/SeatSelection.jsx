@@ -27,7 +27,7 @@ const SeatSelection = () => {
         // For simplicity, we get price from a mock or we pass it via state. Or we assume standard price.
         // Let's rely on backend strictly: creating order will return correct total.)
         
-        const seatsRes = await axios.get(`http://localhost:5000/api/shows/${showId}/seats`);
+        const seatsRes = await axios.get(`\${import.meta.env.REACT_APP_API_URL}/api/shows/${showId}/seats`);
         setBookedSeats(seatsRes.data.bookedSeats || []);
         setLoading(false);
       } catch (error) {
@@ -65,7 +65,7 @@ const SeatSelection = () => {
 
     try {
       // 1. Create Order
-      const { data: orderData } = await axios.post('http://localhost:5000/api/bookings/create-order', {
+      const { data: orderData } = await axios.post(`\${import.meta.env.REACT_APP_API_URL}/api/bookings/create-order`, {
         showId,
         seats: selectedSeats
       });
@@ -81,7 +81,7 @@ const SeatSelection = () => {
         handler: async function (response) {
           // 3. Verify Payment
           try {
-            const verifyRes = await axios.post('http://localhost:5000/api/bookings/verify-payment', {
+            const verifyRes = await axios.post(`\${import.meta.env.REACT_APP_API_URL}/api/bookings/verify-payment`, {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,

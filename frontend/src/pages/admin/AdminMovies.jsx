@@ -16,7 +16,7 @@ const AdminMovies = () => {
 
   const fetchMovies = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/movies');
+      const res = await axios.get(`\${import.meta.env.REACT_APP_API_URL}/api/movies`);
       setMovies(res.data);
       setLoading(false);
     } catch (e) {
@@ -29,9 +29,9 @@ const AdminMovies = () => {
     e.preventDefault();
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/movies/${editId}`, formData);
+        await axios.put(`\${import.meta.env.REACT_APP_API_URL}/api/movies/${editId}`, formData);
       } else {
-        await axios.post('http://localhost:5000/api/movies', formData);
+        await axios.post(`\${import.meta.env.REACT_APP_API_URL}/api/movies`, formData);
       }
       setFormData({ title: '', description: '', posterUrl: '', genre: '', duration: '', releaseDate: '' });
       setIsEditing(false);
@@ -45,7 +45,7 @@ const AdminMovies = () => {
   const handleDelete = async (id) => {
     if(window.confirm('Delete this movie?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/movies/${id}`);
+        await axios.delete(`\${import.meta.env.REACT_APP_API_URL}/api/movies/${id}`);
         fetchMovies();
       } catch(e) {
         alert('Error deleting movie');
