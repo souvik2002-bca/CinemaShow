@@ -12,7 +12,7 @@ const AdminBookings = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(`\${import.meta.env.REACT_APP_API_URL}/api/bookings`);
+      const res = await axios.get(`${import.meta.env.REACT_APP_API_URL}/api/bookings`);
       setBookings(res.data);
       setLoading(false);
     } catch (e) {

@@ -11,7 +11,7 @@ const MyBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await axios.get(`\${import.meta.env.REACT_APP_API_URL}/api/bookings/mybookings`);
+        const res = await axios.get(`${import.meta.env.REACT_APP_API_URL}/api/bookings/mybookings`);
         setBookings(res.data);
         setLoading(false);
       } catch (error) {
