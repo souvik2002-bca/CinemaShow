@@ -22,13 +22,12 @@ const SeatSelection = () => {
   useEffect(() => {
     const fetchShowData = async () => {
       try {
-        // Find show details to get price (Since we only implemented `GET /api/shows?movie=id`, 
-        // we will fetch all shows and find this one, or ideally we should have a `GET /api/shows/:id` endpoint.
-        // For simplicity, we get price from a mock or we pass it via state. Or we assume standard price.
-        // Let's rely on backend strictly: creating order will return correct total.)
-        
+        // The backend now returns both booked seats and the show details (including price) in a single request.
         const seatsRes = await axios.get(`${import.meta.env.REACT_APP_API_URL}/api/shows/${showId}/seats`);
         setBookedSeats(seatsRes.data.bookedSeats || []);
+        if (seatsRes.data.show) {
+          setShow(seatsRes.data.show);
+        }
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -209,7 +208,7 @@ const SeatSelection = () => {
         <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h4 style={{ color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>Selected: {selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None'}</h4>
-            <p style={{ fontSize: '1.2rem', fontWeight: 600 }}>Total: <span style={{ color: 'var(--secondary-color)' }}>{selectedSeats.length > 0 ? "₹" + (selectedSeats.length * 100) : '₹0'}</span></p>
+            <p style={{ fontSize: '1.2rem', fontWeight: 600 }}>Total: <span style={{ color: 'var(--secondary-color)' }}>{selectedSeats.length > 0 ? "₹" + (selectedSeats.length * (show?.price || 100)) : '₹0'}</span></p>
           </div>
           <button 
             className="btn btn-primary" 

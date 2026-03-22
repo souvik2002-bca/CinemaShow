@@ -25,6 +25,12 @@ const getShows = async (req, res) => {
 const getShowSeats = async (req, res) => {
   try {
     const showId = req.params.id;
+    
+    const show = await Show.findById(showId).populate('movie', 'title duration');
+    if (!show) {
+      return res.status(404).json({ message: 'Show not found' });
+    }
+
     // Find all completed or pending bookings for this show
     // We consider 'pending' as temporarily blocked, maybe add expiration logic later
     const bookings = await Booking.find({ show: showId });
@@ -35,7 +41,7 @@ const getShowSeats = async (req, res) => {
       bookedSeats = [...bookedSeats, ...booking.seats];
     });
 
-    res.json({ bookedSeats });
+    res.json({ bookedSeats, show });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error fetching seats' });
